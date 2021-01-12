@@ -1,6 +1,7 @@
 const http = require('http');
 const url = require('url');
 const StringDecoder = require('string_decoder').StringDecoder;
+const config = require('./config');
 
 const server = http.createServer(function (req, res) {
 
@@ -64,8 +65,8 @@ const server = http.createServer(function (req, res) {
     });
 });
 
-server.listen(4500, function() {
-    console.log('Server listen on port 4500');
+server.listen(config.port, function() {
+    console.log(`Server listen on port ${config.port} in ${config.mode} mode`);
 });
 
 
