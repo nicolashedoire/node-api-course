@@ -16,11 +16,17 @@ const server = http.createServer(function (req, res) {
     // Get the query string as an object
     const queryStringObject = parsedUrl.query;
 
+    // Get the headers as an object
+    const headers = req.headers;
+
     // Send the response
     res.end('Hello world\n');
 
     // Log the request path
     console.log(`request received on path ${trimPath} with method ${method} and with parameters: ${JSON.stringify(queryStringObject)}`);
+    
+    // Log the headers
+    console.log(headers);
 });
 
 server.listen(4500, function() {
