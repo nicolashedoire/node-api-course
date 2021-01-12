@@ -1,5 +1,6 @@
 const http = require('http');
 const url = require('url');
+const StringDecoder = require('string_decoder').StringDecoder;
 
 const server = http.createServer(function (req, res) {
 
@@ -19,14 +20,29 @@ const server = http.createServer(function (req, res) {
     // Get the headers as an object
     const headers = req.headers;
 
-    // Send the response
-    res.end('Hello world\n');
+    // Get the payload if any
+    const decoder = new StringDecoder('utf-8');
+    let buffer = '';
+    req.on('data', function(data){
+        buffer += decoder.write(data);
+    });
 
-    // Log the request path
-    console.log(`request received on path ${trimPath} with method ${method} and with parameters: ${JSON.stringify(queryStringObject)}`);
-    
-    // Log the headers
-    console.log(headers);
+    req.on('end', function(){
+        buffer += decoder.end();
+
+        // Send the response
+        res.end('Hello world\n');
+
+        // Log the request path
+        console.log(`request received on path ${trimPath} with method ${method} and with parameters: ${JSON.stringify(queryStringObject)}`);
+        
+        // Log the headers
+        console.log(`request received with this headers : ${JSON.stringify(headers)}`);
+
+        // Log the headers
+        console.log(`request received with this payload : ${JSON.stringify(buffer)}`);
+
+    });
 });
 
 server.listen(4500, function() {
