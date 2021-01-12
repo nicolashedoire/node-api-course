@@ -9,7 +9,7 @@ const server = http.createServer(function (req, res) {
 
     // Get the path
     const path = parsedUrl.pathname;
-    const trimPath = path.replace(/^\/÷|\/÷$/g, '');
+    const trimPath = path.replace(/^\/|\/$/g, '');
 
     // Get the HTTP method
     const method = req.method.toLowerCase();
@@ -29,22 +29,60 @@ const server = http.createServer(function (req, res) {
 
     req.on('end', function(){
         buffer += decoder.end();
+        // Choose the handler this request should go to
+        const chosenHandler = typeof(router[trimPath]) !== 'undefined' ? router[trimPath] : handlers.error;
 
-        // Send the response
-        res.end('Hello world\n');
+        // Construct the data object to send to the handler
+        const data = {
+            trimPath,
+            queryStringObject,
+            method,
+            headers,
+            buffer
+        };
 
-        // Log the request path
-        console.log(`request received on path ${trimPath} with method ${method} and with parameters: ${JSON.stringify(queryStringObject)}`);
-        
-        // Log the headers
-        console.log(`request received with this headers : ${JSON.stringify(headers)}`);
+        // Route the request to the handler specified in the router
+        chosenHandler(data, function(statusCode, payload){
 
-        // Log the headers
-        console.log(`request received with this payload : ${JSON.stringify(buffer)}`);
+            payload = payload || {};
 
+            // Send the response
+            res.writeHead(statusCode);
+            res.end(JSON.stringify(payload));
+
+            // Log the request path
+            console.log(`request received on path ${trimPath} with method ${method} and with parameters: ${JSON.stringify(queryStringObject)}`);
+            
+            // Log the headers
+            console.log(`request received with this headers : ${JSON.stringify(headers)}`);
+
+            // Log the headers
+            console.log(`request received with this payload : ${JSON.stringify(buffer)}`);
+
+        });
     });
 });
 
 server.listen(4500, function() {
     console.log('Server listen on port 4500');
-})
+});
+
+
+// Define handlers
+let handlers = {}
+
+// Define sample handler
+handlers.sample = function(data, callback) {
+    // callback an http code and a payload object
+    callback(200, {name : 'Sample handler'});
+}
+
+// Define error handler
+handlers.error = function(data, callback) {
+    callback(404);
+}
+
+// Define a request router
+const router = {
+    'sample': handlers.sample
+}
