@@ -9,13 +9,15 @@ let environments = {};
 
 // Staging (default) environment
 environments.staging = {
-    'port': 4500,
+    'httpPort': 4500,
+    'httpsPort': 4501,
     'mode': 'staging',
 }
 
 // Production environment
 environments.production = {
-    'port': 5000,
+    'httpPort': 5000,
+    'httpsPort': 5001,
     'mode': 'production',
 }
 
