@@ -13,11 +13,14 @@ const server = http.createServer(function (req, res) {
     // Get the HTTP method
     const method = req.method.toLowerCase();
 
+    // Get the query string as an object
+    const queryStringObject = parsedUrl.query;
+
     // Send the response
     res.end('Hello world\n');
 
     // Log the request path
-    console.log(`request received on path ${trimPath} with method ${method}`);
+    console.log(`request received on path ${trimPath} with method ${method} and with parameters: ${JSON.stringify(queryStringObject)}`);
 });
 
 server.listen(4500, function() {
