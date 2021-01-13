@@ -4,6 +4,8 @@ const url = require('url');
 const fs = require('fs');
 const StringDecoder = require('string_decoder').StringDecoder;
 const config = require('./config');
+const lib = require('./lib/data');
+
 
 // Instanciate the HTTP server
 const httpServer = http.createServer(function (req, res) {
@@ -96,10 +98,10 @@ const unifiedServer = function(req, res) {
 // Define handlers
 let handlers = {}
 
-// Define sample handler
-handlers.sample = function(data, callback) {
+// Define hello handler
+handlers.hello = function(data, callback) {
     // callback an http code and a payload object
-    callback(200, {name : 'Sample handler'});
+    callback(200, {message : 'Welcome to the jungle'});
 }
 
 // Define error handler
@@ -109,5 +111,5 @@ handlers.error = function(data, callback) {
 
 // Define a request router
 const router = {
-    'sample': handlers.sample
+    'hello': handlers.hello
 }
