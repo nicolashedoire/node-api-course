@@ -12,6 +12,7 @@ environments.staging = {
     'httpPort': 4500,
     'httpsPort': 4501,
     'mode': 'staging',
+    'secret': 'poiuyttreaqsdfghjklmnvcxw?./'
 }
 
 // Production environment
@@ -19,6 +20,7 @@ environments.production = {
     'httpPort': 5000,
     'httpsPort': 5001,
     'mode': 'production',
+    'secret': 'poiuytcdcibdsifudisuhjklmnvcxw?./'
 }
 
 // Determine which environment was passed as a command-line argument
