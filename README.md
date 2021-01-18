@@ -13,4 +13,5 @@
   <li>Chapter 10 : create data store</li>
   <li>Chapter 11 : create users service</li>
   <li>Chapter 12 : create tokens service</li>
+  <li>Chapter 13 : connecting to an API</li>
 <ul>
